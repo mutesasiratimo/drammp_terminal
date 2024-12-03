@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "1048620869448",
+    "project_id": "spesho-entebbe-drammp",
+    "storage_bucket": "spesho-entebbe-drammp.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1048620869448:android:af36c7d98a99568758f57d",
+        "android_client_info": {
+          "package_name": "co.ug.spesho.drampdriver"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDARD7iUyM-xYjSlI1BK6Rszpb7ZAJBjIc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1048620869448:android:f1caf1223467b81558f57d",
+        "android_client_info": {
+          "package_name": "co.ug.speshotaxi.drammp"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDARD7iUyM-xYjSlI1BK6Rszpb7ZAJBjIc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
