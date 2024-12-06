@@ -1,0 +1,244 @@
+// To parse this JSON data, do
+//
+//     final revenueStreamSearch = revenueStreamSearchFromJson(jsonString);
+
+import 'dart:convert';
+
+RevenueStreamSearch revenueStreamSearchFromJson(String str) =>
+    RevenueStreamSearch.fromJson(json.decode(str));
+
+String revenueStreamSearchToJson(RevenueStreamSearch data) =>
+    json.encode(data.toJson());
+
+class RevenueStreamSearch {
+  String id;
+  String regreferenceno;
+  String sectorid;
+  String sectorsubtypeid;
+  String tarriffrequency;
+  double tarrifamount;
+  DateTime lastrenewaldate;
+  DateTime nextrenewaldate;
+  String revenueactivity;
+  String vesseltype;
+  String vesselstorage;
+  String vesselmaterial;
+  String vesselsafetyequip;
+  double vessellength;
+  String vesselpropulsion;
+  double dailyactivehours;
+  String companytype;
+  String businesstype;
+  String regno;
+  String vin;
+  String tin;
+  dynamic brn;
+  String businessname;
+  String tradingname;
+  String establishmenttype;
+  int staffcountmale;
+  int staffcountfemale;
+  int bedcount;
+  int roomcount;
+  bool hasrestaurant;
+  bool hasbar;
+  bool hasgym;
+  bool hashealthclub;
+  bool hasconference;
+  bool haspool;
+  String permitno;
+  String color;
+  String logbookno;
+  double enginehp;
+  String engineno;
+  String model;
+  String ownerid;
+  String address;
+  double addresslat;
+  double addresslong;
+  String operatorid;
+  String divisionid;
+  String stageid;
+  String purpose;
+  String type;
+  DateTime datecreated;
+  String createdby;
+  dynamic dateupdated;
+  dynamic updatedby;
+  String status;
+
+  RevenueStreamSearch({
+    required this.id,
+    required this.regreferenceno,
+    required this.sectorid,
+    required this.sectorsubtypeid,
+    required this.tarriffrequency,
+    required this.tarrifamount,
+    required this.lastrenewaldate,
+    required this.nextrenewaldate,
+    required this.revenueactivity,
+    required this.vesseltype,
+    required this.vesselstorage,
+    required this.vesselmaterial,
+    required this.vesselsafetyequip,
+    required this.vessellength,
+    required this.vesselpropulsion,
+    required this.dailyactivehours,
+    required this.companytype,
+    required this.businesstype,
+    required this.regno,
+    required this.vin,
+    required this.tin,
+    required this.brn,
+    required this.businessname,
+    required this.tradingname,
+    required this.establishmenttype,
+    required this.staffcountmale,
+    required this.staffcountfemale,
+    required this.bedcount,
+    required this.roomcount,
+    required this.hasrestaurant,
+    required this.hasbar,
+    required this.hasgym,
+    required this.hashealthclub,
+    required this.hasconference,
+    required this.haspool,
+    required this.permitno,
+    required this.color,
+    required this.logbookno,
+    required this.enginehp,
+    required this.engineno,
+    required this.model,
+    required this.ownerid,
+    required this.address,
+    required this.addresslat,
+    required this.addresslong,
+    required this.operatorid,
+    required this.divisionid,
+    required this.stageid,
+    required this.purpose,
+    required this.type,
+    required this.datecreated,
+    required this.createdby,
+    required this.dateupdated,
+    required this.updatedby,
+    required this.status,
+  });
+
+  factory RevenueStreamSearch.fromJson(Map<String, dynamic> json) =>
+      RevenueStreamSearch(
+        id: json["id"],
+        regreferenceno: json["regreferenceno"],
+        sectorid: json["sectorid"],
+        sectorsubtypeid: json["sectorsubtypeid"],
+        tarriffrequency: json["tarriffrequency"],
+        tarrifamount: json["tarrifamount"],
+        lastrenewaldate: DateTime.parse(json["lastrenewaldate"]),
+        nextrenewaldate: DateTime.parse(json["nextrenewaldate"]),
+        revenueactivity: json["revenueactivity"],
+        vesseltype: json["vesseltype"],
+        vesselstorage: json["vesselstorage"],
+        vesselmaterial: json["vesselmaterial"],
+        vesselsafetyequip: json["vesselsafetyequip"],
+        vessellength: json["vessellength"],
+        vesselpropulsion: json["vesselpropulsion"],
+        dailyactivehours: json["dailyactivehours"],
+        companytype: json["companytype"],
+        businesstype: json["businesstype"],
+        regno: json["regno"],
+        vin: json["vin"],
+        tin: json["tin"],
+        brn: json["brn"],
+        businessname: json["businessname"],
+        tradingname: json["tradingname"],
+        establishmenttype: json["establishmenttype"],
+        staffcountmale: json["staffcountmale"],
+        staffcountfemale: json["staffcountfemale"],
+        bedcount: json["bedcount"],
+        roomcount: json["roomcount"],
+        hasrestaurant: json["hasrestaurant"],
+        hasbar: json["hasbar"],
+        hasgym: json["hasgym"],
+        hashealthclub: json["hashealthclub"],
+        hasconference: json["hasconference"],
+        haspool: json["haspool"],
+        permitno: json["permitno"],
+        color: json["color"],
+        logbookno: json["logbookno"],
+        enginehp: json["enginehp"],
+        engineno: json["engineno"],
+        model: json["model"],
+        ownerid: json["ownerid"],
+        address: json["address"],
+        addresslat: json["addresslat"],
+        addresslong: json["addresslong"],
+        operatorid: json["operatorid"],
+        divisionid: json["divisionid"],
+        stageid: json["stageid"],
+        purpose: json["purpose"],
+        type: json["type"],
+        datecreated: DateTime.parse(json["datecreated"]),
+        createdby: json["createdby"],
+        dateupdated: json["dateupdated"],
+        updatedby: json["updatedby"],
+        status: json["status"],
+      );
+
+  Map<String, dynamic> toJson() => {
+        "id": id,
+        "regreferenceno": regreferenceno,
+        "sectorid": sectorid,
+        "sectorsubtypeid": sectorsubtypeid,
+        "tarriffrequency": tarriffrequency,
+        "tarrifamount": tarrifamount,
+        "lastrenewaldate": lastrenewaldate.toIso8601String(),
+        "nextrenewaldate": nextrenewaldate.toIso8601String(),
+        "revenueactivity": revenueactivity,
+        "vesseltype": vesseltype,
+        "vesselstorage": vesselstorage,
+        "vesselmaterial": vesselmaterial,
+        "vesselsafetyequip": vesselsafetyequip,
+        "vessellength": vessellength,
+        "vesselpropulsion": vesselpropulsion,
+        "dailyactivehours": dailyactivehours,
+        "companytype": companytype,
+        "businesstype": businesstype,
+        "regno": regno,
+        "vin": vin,
+        "tin": tin,
+        "brn": brn,
+        "businessname": businessname,
+        "tradingname": tradingname,
+        "establishmenttype": establishmenttype,
+        "staffcountmale": staffcountmale,
+        "staffcountfemale": staffcountfemale,
+        "bedcount": bedcount,
+        "roomcount": roomcount,
+        "hasrestaurant": hasrestaurant,
+        "hasbar": hasbar,
+        "hasgym": hasgym,
+        "hashealthclub": hashealthclub,
+        "hasconference": hasconference,
+        "haspool": haspool,
+        "permitno": permitno,
+        "color": color,
+        "logbookno": logbookno,
+        "enginehp": enginehp,
+        "engineno": engineno,
+        "model": model,
+        "ownerid": ownerid,
+        "address": address,
+        "addresslat": addresslat,
+        "addresslong": addresslong,
+        "operatorid": operatorid,
+        "divisionid": divisionid,
+        "stageid": stageid,
+        "purpose": purpose,
+        "type": type,
+        "datecreated": datecreated.toIso8601String(),
+        "createdby": createdby,
+        "dateupdated": dateupdated,
+        "updatedby": updatedby,
+        "status": status,
+      };
+}

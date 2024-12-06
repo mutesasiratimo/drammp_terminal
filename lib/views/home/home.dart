@@ -2,12 +2,16 @@
 
 import 'dart:async';
 import 'dart:convert';
+import 'dart:math';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:encrypt/encrypt.dart' as encrypt;
 import 'package:entebbe_dramp_terminal/models/user.dart';
 import 'package:entebbe_dramp_terminal/views/agent/agent.dart';
+import 'package:entebbe_dramp_terminal/views/enforcement/enforcement.dart';
+import 'package:entebbe_dramp_terminal/views/park/park.dart';
 import 'package:entebbe_dramp_terminal/views/reports/financialreports.dart';
 import 'package:entebbe_dramp_terminal/views/settings/settings.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_sliding_up_panel/flutter_sliding_up_panel.dart';
@@ -69,13 +73,14 @@ class _HomePageState extends Base<HomePage> {
   String vehicleId = "";
   String transportType = "";
   StreamSubscription<LocationData>? locationSubscription;
+  Timer? timerLocation;
 
   List<dynamic> gridItems = [
     {
       "title": "QR Code",
       "icon": Icon(
         Icons.qr_code,
-        size: 60,
+        size: 40,
         color: Colors.green,
       )
     },
@@ -83,15 +88,31 @@ class _HomePageState extends Base<HomePage> {
       "title": "Reports",
       "icon": Icon(
         Icons.auto_graph_rounded,
-        size: 60,
+        size: 40,
         color: Colors.blue,
+      )
+    },
+    {
+      "title": "Enforce",
+      "icon": Icon(
+        Icons.policy,
+        size: 40,
+        color: Colors.red,
+      )
+    },
+    {
+      "title": "Taxi Park",
+      "icon": Icon(
+        Icons.local_taxi,
+        size: 40,
+        color: AppConstants.primaryColor,
       )
     },
     {
       "title": "Top Up",
       "icon": Icon(
         Icons.payments_sharp,
-        size: 60,
+        size: 40,
         color: AppConstants.secondaryColor,
       )
     },
@@ -99,7 +120,7 @@ class _HomePageState extends Base<HomePage> {
       "title": "Settings",
       "icon": Icon(
         Icons.settings,
-        size: 60,
+        size: 40,
         color: Colors.blueGrey.shade600,
       )
     },
@@ -132,6 +153,47 @@ class _HomePageState extends Base<HomePage> {
             LatLng(loc.latitude ?? 0.347596, loc.longitude ?? 32.582520);
       });
     });
+    updateLastKnownLocation();
+  }
+
+  updateLastKnownLocation() async {
+    var url = Uri.parse("${AppConstants.baseUrl}revenuestreams/updatelocation");
+    // bool responseStatus = false;
+    String _authToken = "";
+    String username = "";
+    String password = "";
+    // debugPrint("++++++ TRIP QUERY FUNCTION+++++++");
+    // Navigator.pushNamed(context, AppRouter.home);
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    driverId = prefs.getString("userid")!;
+    username = prefs.getString("phone")!;
+    password = prefs.getString("password")!;
+    // await AppFunctions.authenticate(username, password);
+
+    var bodyString = {
+      "id": "$vehicleId",
+      "address": address,
+      "addresslat": currentLocationCoords.latitude,
+      "addresslong": currentLocationCoords.longitude,
+      "updatedby": driverId
+    };
+
+    var body = jsonEncode(bodyString);
+    // debugPrint("++++++${body.toString()}+++++++++++++++++++++++++++++++++++++");
+    var response = await http.post(url,
+        headers: {
+          "Content-Type": "Application/json",
+          // "Bearer Token": _authToken,
+        },
+        body: body);
+    // debugPrint("++ STATUS BODY++++${response.body}+++++++");
+    if (response.statusCode == 200) {
+      final item = json.decode(response.body);
+      debugPrint("++++++ UPDATE LOCATION SUCCESS +++++++");
+    } else {
+      final item = json.decode(response.body);
+      debugPrint("++++++ UPDATE LOCATION FAILED +++++++");
+    }
   }
 
   getWeather() async {
@@ -212,7 +274,7 @@ class _HomePageState extends Base<HomePage> {
 
     var bodyString = {
       "id": "",
-      "tripnumber": "",
+      "tripnumber": tripNumber,
       "userid": userid,
       "vehicleid": vehicleId,
       "destinationaddress": address,
@@ -334,7 +396,7 @@ class _HomePageState extends Base<HomePage> {
 
     var bodyString = {
       "id": "",
-      "tripnumber": "",
+      "tripnumber": tripNumber,
       "cardid": cardid,
       "vehicleid": vehicleId,
       "destinationaddress": address,
@@ -540,6 +602,8 @@ class _HomePageState extends Base<HomePage> {
     if (locationSubscription != null) {
       locationSubscription!.cancel();
     }
+    timer?.cancel();
+    timerLocation?.cancel();
     super.dispose();
   }
 
@@ -559,6 +623,11 @@ class _HomePageState extends Base<HomePage> {
         panelController.anchor();
       } else {}
     });
+
+    timerLocation = Timer.periodic(
+      Duration(minutes: 5),
+      (Timer t) async => updateLastKnownLocation(),
+    );
     salutation = greeting();
     getAutomobiles();
     updateFcmid();
@@ -725,6 +794,30 @@ class _HomePageState extends Base<HomePage> {
                                     repeat: true,
                                     height: 80,
                                     width: 100),
+                                CupertinoSwitch(
+                                    trackColor: Colors.red,
+                                    value: onTrip,
+                                    onChanged: (val) {
+                                      setState(() {
+                                        onTrip = val;
+                                      });
+                                      if (onTrip) {
+                                        Random random = new Random();
+                                        int randomNumber =
+                                            random.nextInt(10000);
+                                        setState(() {
+                                          tripNumber =
+                                              "$numberPlate-$randomNumber";
+                                        });
+                                        showInfoToast(
+                                            "Trip: $tripNumber Started.");
+                                      } else {
+                                        setState(() {
+                                          tripNumber = "";
+                                        });
+                                        showInfoToast("Trip Concluded.");
+                                      }
+                                    })
                                 // Container(
                                 //   margin: EdgeInsets.symmetric(
                                 //     horizontal: 8.0,
@@ -840,7 +933,7 @@ class _HomePageState extends Base<HomePage> {
                   padding: EdgeInsets.all(18.0),
                   child: GridView.builder(
                     gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: 2, // number of items in each row
+                      crossAxisCount: 3, // number of items in each row
                       mainAxisSpacing: 16.0, // spacing between rows
                       crossAxisSpacing: 16.0, // spacing between columns
                     ),
@@ -852,6 +945,10 @@ class _HomePageState extends Base<HomePage> {
                           switch (gridItems[index]["title"]) {
                             case "QR Code":
                               scanQrCode();
+                            case "Enforce":
+                              push(EnforcementPage());
+                            case "Taxi Park":
+                              push(ParkManagement());
                             case "Reports":
                               push(FinancialReportsPage());
                             case "Top Up":
@@ -873,7 +970,8 @@ class _HomePageState extends Base<HomePage> {
                                   Text(
                                     gridItems[index]["title"],
                                     style: TextStyle(
-                                        fontSize: 18.0, color: Colors.grey),
+                                        fontSize: 14.0,
+                                        color: Colors.grey.shade600),
                                   ),
                                 ],
                               ),
