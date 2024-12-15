@@ -7,7 +7,7 @@ class AppConstants {
   static const String weatherApiKey = "14000a1f22ff9be80023f1cd831920f2";
   static const String googleApiKey = "AIzaSyDV-HAZxiJPvVuwnBEL-8V6_vhtkuFAi4w";
   // static const String baseUrl = "http://35.238.60.172/apidmmp/";
-  static String baseUrl = "http://35.225.77.49/apidrammp/";
+  static String baseUrl = "https://drammp.space/apidrammp/";
   static const String fwPublicKey =
       "FLWPUBK-ad24bdf926f0a9b6980e0bc6b29b3eac-X";
   static const String fwSecretKey =
